@@ -1,5 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
+import { userDto } from './dto/user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -15,23 +25,22 @@ export class UsersController {
   }
 
   @Post() //@Body decorator use kora hoyece karon je request ta ashbe sheita Body tei ashbe
-  createUser(@Body() body:{name:string,age:number}){
-    return this.userService.createPost(body)
-  }
-  
-  @Put(':id')
-  updateUser(@Param('id') id:string, @Body() body:{name:string,age:number}){
-  return this.userService.updateItem(Number(id),body)
+  createUser(@Body() userdto: userDto) {
+    return this.userService.createPost(userdto);
   }
 
+  @Put(':id')
+  updateUser(@Param('id') id: string, @Body() userdto: userDto) {
+    return this.userService.updateItem(Number(id), userdto);
+  }
 
   @Patch(':id')
-   patchUser(@Param('id') id:string,@Body() body :Partial<{name:string,age:number}>){
-    return this.userService.patchItem(Number(id),body)
-   }
+  patchUser(@Param('id') id: string, @Body() userdto: Partial<userDto>) {
+    return this.userService.patchItem(Number(id), userdto);
+  }
 
-   @Delete(':id')
-   deleteUser(@Param('id') id:string){
-    return this.userService.deletedItem(Number(id))
-   }
+  @Delete(':id')
+  deleteUser(@Param('id') id: string) {
+    return this.userService.deletedItem(Number(id));
+  }
 }
